@@ -23,3 +23,11 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dump build/class_files.txt
+-printseeds build/seeds.txt
+-printusage build/unused.txt
+-printmapping build/mapping.txt
+
+-dontwarn java.lang.invoke.*
+-dontwarn **$$Lambda$*
