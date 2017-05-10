@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import com.orhanobut.logger.Logger;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import rx.Observable;
@@ -23,6 +25,6 @@ public class MainActivity extends Activity {
 
         tv.setText("Hello");
 
-        Observable.just("a").subscribe(s -> Log.i("test", "test string " + s));
+        Observable.just("a").subscribe(s -> Logger.i("good " + s));
     }
 }
