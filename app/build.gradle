@@ -1,0 +1,77 @@
+apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion versions.compileSdk
+    buildToolsVersion versions.buildTools
+    defaultConfig {
+        applicationId "cf.qishui.sodnotelean"
+        minSdkVersion versions.minSdk
+        targetSdkVersion versions.targetSdk
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+    }
+
+    productFlavors {
+        dev {
+            // Enable pre-dexing to produce an APK that can be tested on
+            // Android 5.0+ without the time-consuming DEX build processes.
+            minSdkVersion 21
+            versionName "dev"
+        }
+        prod {
+            // The actual minSdkVersion for the production version.
+            minSdkVersion versions.minSdk
+        }
+
+        ptest {
+            minSdkVersion versions.minSdk
+            versionName "dev"
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    testCompile 'junit:junit:4.12'
+
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'com.android.support:preference-v7:25.3.1'
+
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    compile 'com.github.bumptech.glide:glide:3.8.0'
+
+    compile 'com.trello:rxlifecycle:1.0'
+    compile 'com.trello:rxlifecycle-android:1.0'
+    compile 'com.trello:rxlifecycle-components:1.0'
+    compile 'com.trello:rxlifecycle-navi:1.0'
+    compile 'com.trello:navi:1.0'
+
+    compile 'com.android.support:multidex:1.0.1'
+}
