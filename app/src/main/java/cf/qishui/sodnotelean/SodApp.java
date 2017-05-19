@@ -33,5 +33,7 @@ public class SodApp extends Application {
         } else {
             Logger.init().logLevel(LogLevel.NONE);
         }
+
     }
+
 }
