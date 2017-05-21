@@ -2,8 +2,12 @@ package cf.qishui.sodnotelean;
 
 import android.app.Application;
 
+import com.facebook.stetho.Stetho;
 import com.orhanobut.logger.LogLevel;
 import com.orhanobut.logger.Logger;
+import com.raizlabs.android.dbflow.config.FlowManager;
+
+import cf.qishui.sodnotelean.network.SodaNetwork;
 
 /**
  * Created by wangxiao on 2017/5/10.
@@ -34,6 +38,11 @@ public class SodApp extends Application {
             Logger.init().logLevel(LogLevel.NONE);
         }
 
+        FlowManager.init(this);
+
+        Stetho.initializeWithDefaults(this);
+
+        SodaNetwork.init(this);
     }
 
 }

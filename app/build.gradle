@@ -80,11 +80,18 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'net.danlew:android.joda:2.9.9'
     compile 'com.android.support:design:25.3.1'
-
     annotationProcessor "com.github.Raizlabs.DBFlow:dbflow-processor:${dbflow_version}"
-
     compile "com.github.Raizlabs.DBFlow:dbflow-core:${dbflow_version}"
     compile "com.github.Raizlabs.DBFlow:dbflow:${dbflow_version}"
-
     compile "com.github.Raizlabs.DBFlow:dbflow-rx:${dbflow_version}"
+    compile 'com.facebook.stetho:stetho:1.5.0'
+    compile 'com.facebook.stetho:stetho-okhttp3:1.5.0'
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
+
+    compile 'com.squareup.okhttp3:okhttp:3.8.0'
+    compile 'com.squareup.moshi:moshi:1.5.0'
+    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
+
 }
