@@ -1,4 +1,4 @@
-package cf.qishui.sodnotelean.RestAPI;
+package cf.qishui.sodnotelean.restapi;
 
 import cf.qishui.sodnotelean.model.LoginModel;
 import retrofit2.http.GET;
