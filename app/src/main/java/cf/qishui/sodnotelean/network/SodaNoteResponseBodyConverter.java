@@ -1,6 +1,5 @@
 package cf.qishui.sodnotelean.network;
 
-import com.orhanobut.logger.Logger;
 import com.squareup.moshi.JsonAdapter;
 import com.squareup.moshi.JsonDataException;
 import com.squareup.moshi.Moshi;
@@ -8,9 +7,8 @@ import com.squareup.moshi.Moshi;
 import java.io.IOException;
 import java.lang.annotation.Annotation;
 
-import cf.qishui.sodnotelean.model.ErrorModel;
+import cf.qishui.sodnotelean.model.StateModel;
 import okhttp3.ResponseBody;
-import okio.BufferedSource;
 import okio.ByteString;
 import retrofit2.Converter;
 
@@ -35,15 +33,13 @@ public class SodaNoteResponseBodyConverter<T> implements Converter<ResponseBody,
     public T convert(ResponseBody value) throws IOException {
         String jsonStr = value.string();
         try {
-            Logger.d("before parse");
             return adapter.fromJson(jsonStr);
         } catch (JsonDataException e) {
-            JsonAdapter<ErrorModel> errorAdapter = moshi.adapter(ErrorModel.class);
-            Logger.d("before error parse "+jsonStr);
-            ErrorModel errorModel = errorAdapter.fromJson(jsonStr);
+            JsonAdapter<StateModel> errorAdapter = moshi.adapter(StateModel.class);
+            StateModel stateModel = errorAdapter.fromJson(jsonStr);
             String errorMsg = "common error";
-            if (errorModel != null && errorModel.Msg != null) {
-                errorMsg = errorModel.Msg;
+            if (stateModel != null && stateModel.Msg != null) {
+                errorMsg = stateModel.Msg;
             }
             throw new IllegalStateException(errorMsg);
         } finally {

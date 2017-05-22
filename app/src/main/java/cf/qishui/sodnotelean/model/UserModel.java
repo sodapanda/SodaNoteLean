@@ -4,7 +4,7 @@ package cf.qishui.sodnotelean.model;
  * Created by wangxiao on 2017/5/21.
  */
 
-public class User extends SodaBaseModel {
+public class UserModel {
     public String UserId;
     public String Username;
     public String Email;

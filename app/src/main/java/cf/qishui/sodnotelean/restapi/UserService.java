@@ -1,6 +1,7 @@
 package cf.qishui.sodnotelean.restapi;
 
-import cf.qishui.sodnotelean.model.SodaBaseModel;
+import cf.qishui.sodnotelean.model.StateModel;
+import cf.qishui.sodnotelean.model.UserModel;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
@@ -14,13 +15,13 @@ import rx.Observable;
 
 public interface UserService {
     @GET("user/info")
-    Observable<cf.qishui.sodnotelean.model.User> userInfo(@Query("userId") String userId);
+    Observable<UserModel> userInfo(@Query("userId") String userId);
 
     @FormUrlEncoded
     @POST("user/updateUsername")
-    Observable<SodaBaseModel> updateUsername(@Field("username") String username);
+    Observable<StateModel> updateUsername(@Field("username") String username);
 
     @FormUrlEncoded
     @POST("user/updatePwd")
-    Observable<SodaBaseModel> updatePwd(@Field("oldPwd") String oldPwd, @Field("pwd") String pwd);
+    Observable<StateModel> updatePwd(@Field("oldPwd") String oldPwd, @Field("pwd") String pwd);
 }

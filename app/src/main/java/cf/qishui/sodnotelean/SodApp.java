@@ -11,7 +11,8 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 
 import java.util.concurrent.TimeUnit;
 
-import cf.qishui.sodnotelean.database.LoginModel;
+import cf.qishui.sodnotelean.database.UserInfoTable;
+import cf.qishui.sodnotelean.model.LoginModel;
 import cf.qishui.sodnotelean.network.SodaNoteConverterFactory;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
@@ -61,13 +62,13 @@ public class SodApp extends Application {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
                 .addInterceptor(chain -> {
-                    LoginModel loginModel = SQLite.select()
-                            .from(LoginModel.class)
+                    UserInfoTable userInfoTable = SQLite.select()
+                            .from(UserInfoTable.class)
                             .querySingle();
 
                     HttpUrl newUrl = chain.request().url();
-                    if (loginModel != null) {
-                        newUrl = chain.request().url().newBuilder().addQueryParameter("token", loginModel.Token).build();
+                    if (userInfoTable != null) {
+                        newUrl = chain.request().url().newBuilder().addQueryParameter("token", userInfoTable.Token).build();
                     }
 
                     Request request = chain.request().newBuilder().url(newUrl).build();

@@ -3,12 +3,10 @@ package cf.qishui.sodnotelean.ui;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
@@ -17,9 +15,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cf.qishui.sodnotelean.MainActivity;
 import cf.qishui.sodnotelean.R;
-import cf.qishui.sodnotelean.database.LoginModel;
-import cf.qishui.sodnotelean.restapi.ApiProvider;
+import cf.qishui.sodnotelean.database.UserInfoTable;
+import cf.qishui.sodnotelean.model.LoginModel;
+import cf.qishui.sodnotelean.model.UserModel;
+import cf.qishui.sodnotelean.network.ApiProvider;
+import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 
 /**
  * A login screen that offers login via email/password.
@@ -37,10 +40,10 @@ public class LoginActivity extends BaseAct {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        LoginModel loginModel = SQLite.select()
-                .from(LoginModel.class)
+        UserInfoTable userInfoTable = SQLite.select()
+                .from(UserInfoTable.class)
                 .querySingle();
-        if (loginModel != null && loginModel.Token != null) {
+        if (userInfoTable != null && userInfoTable.Token != null) {
             //todo how to check token validation
             jumpToMainAct();
             finish();
@@ -57,29 +60,38 @@ public class LoginActivity extends BaseAct {
         String email = mEtEmail.getText().toString();
         String password = mEtPasswd.getText().toString();
 
+        UserInfoTable userInfo = new UserInfoTable();
+
         ApiProvider.login(email, password)
-                .doOnNext(loginModel -> {
-                    if (loginModel.Ok) {
-                        loginModel.save();
+                .flatMap(new Func1<LoginModel, Observable<UserModel>>() {
+                    @Override
+                    public Observable<UserModel> call(LoginModel loginModel) {
+                        userInfo.Token = loginModel.Token;
+                        userInfo.UserId = loginModel.UserId;
+                        userInfo.Email = loginModel.Email;
+                        userInfo.Username = loginModel.Username;
+                        return ApiProvider.userInfo(loginModel.UserId);
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .compose(provider.bindUntilEvent(ActivityEvent.DESTROY))
-                .subscribe(loginModel -> {
-                            if (!loginModel.Ok) {
-                                if (!TextUtils.isEmpty(loginModel.Msg)) {
-                                    Toast.makeText(LoginActivity.this, loginModel.Msg, Toast.LENGTH_SHORT).show();
-                                }
-                                return;
+                .subscribe(new Action1<UserModel>() {
+                               @Override
+                               public void call(UserModel userModel) {
+                                   userInfo.Avatar = userModel.Logo;
+                                   userInfo.Verified = userModel.Verified;
+                                   userInfo.save();
+
+                                   Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                   startActivity(intent);
+                                   finish();
+                               }
+                           },
+                        new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                Toast.makeText(LoginActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
                             }
-
-                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                            startActivity(intent);
-                            finish();
-                        },
-                        throwable -> Logger.e(throwable.toString()),
-                        () -> {
-
                         }
 
                 );
