@@ -82,7 +82,7 @@ public class SodApp extends Application {
         Retrofit.Builder builder = new Retrofit.Builder()
                 .baseUrl(Constants.BASE_URL)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .addConverterFactory(SodaNoteConverterFactory.create());
+                .addConverterFactory(SodaNoteConverterFactory.create().failOnUnknown());
         mRetrofit = builder.client(okHttpClient).build();
     }
 

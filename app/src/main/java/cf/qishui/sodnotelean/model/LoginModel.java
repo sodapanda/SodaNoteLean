@@ -5,6 +5,7 @@ package cf.qishui.sodnotelean.model;
  */
 
 public class LoginModel {
+    public boolean Ok;
     public String UserId;
     public String Token;
     public String Email;

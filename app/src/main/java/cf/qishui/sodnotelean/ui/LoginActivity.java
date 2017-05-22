@@ -70,6 +70,7 @@ public class LoginActivity extends BaseAct {
                         userInfo.UserId = loginModel.UserId;
                         userInfo.Email = loginModel.Email;
                         userInfo.Username = loginModel.Username;
+                        userInfo.save();
                         return ApiProvider.userInfo(loginModel.UserId);
                     }
                 })
