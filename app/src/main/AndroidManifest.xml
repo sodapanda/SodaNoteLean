@@ -19,30 +19,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".ui.SettingAct" />
+
+        <activity
+            android:name=".ui.LoginActivity"
+            android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
-        <activity android:name=".ui.SettingAct" />
-
-        <service
-            android:name=".account.AuthenticatorService"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.accounts.AccountAuthenticator" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.accounts.AccountAuthenticator"
-                android:resource="@xml/authenticator" />
-        </service>
-
-        <activity
-            android:name=".ui.LoginActivity"
-            android:label="@string/title_activity_login" />
     </application>
 
 </manifest>

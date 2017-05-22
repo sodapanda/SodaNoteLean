@@ -31,6 +31,16 @@ public class ApiProvider {
         return user.userInfo(userId).compose(applyTransform(cf.qishui.sodnotelean.model.User.class));
     }
 
+    public static Observable<SodaBaseModel> updateUsername(String userName) {
+        User user = SodApp.getApp().retrofit().create(User.class);
+        return user.updateUsername(userName).compose(applyTransform(SodaBaseModel.class));
+    }
+
+    public static Observable<SodaBaseModel> updatePwd(String oldPwd, String pwd) {
+        User user = SodApp.getApp().retrofit().create(User.class);
+        return user.updatePwd(oldPwd, pwd).compose(applyTransform(SodaBaseModel.class));
+    }
+
     private static <T extends SodaBaseModel> Observable.Transformer<T, T> applyTransform(Class<T> clazz) {
         return observable -> observable
                 .subscribeOn(Schedulers.io())

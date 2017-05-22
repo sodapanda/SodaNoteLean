@@ -9,15 +9,12 @@ import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 import cf.qishui.sodnotelean.model.LoginModel;
 import okhttp3.HttpUrl;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.moshi.MoshiConverterFactory;
@@ -63,21 +60,18 @@ public class SodApp extends Application {
     private void initHttp() {
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .addNetworkInterceptor(new StethoInterceptor())
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        LoginModel loginModel = SQLite.select()
-                                .from(LoginModel.class)
-                                .querySingle();
+                .addInterceptor(chain -> {
+                    LoginModel loginModel = SQLite.select()
+                            .from(LoginModel.class)
+                            .querySingle();
 
-                        HttpUrl newUrl = chain.request().url();
-                        if (loginModel != null) {
-                            newUrl = chain.request().url().newBuilder().addQueryParameter("token", loginModel.Token).build();
-                        }
-
-                        Request request = chain.request().newBuilder().url(newUrl).build();
-                        return chain.proceed(request);
+                    HttpUrl newUrl = chain.request().url();
+                    if (loginModel != null) {
+                        newUrl = chain.request().url().newBuilder().addQueryParameter("token", loginModel.Token).build();
                     }
+
+                    Request request = chain.request().newBuilder().url(newUrl).build();
+                    return chain.proceed(request);
                 })
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .readTimeout(10, TimeUnit.SECONDS)
