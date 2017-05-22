@@ -12,7 +12,7 @@ import rx.Observable;
  * Created by wangxiao on 2017/5/21.
  */
 
-public interface User {
+public interface UserService {
     @GET("user/info")
     Observable<cf.qishui.sodnotelean.model.User> userInfo(@Query("userId") String userId);
 

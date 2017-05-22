@@ -1,4 +1,4 @@
-package cf.qishui.sodnotelean.model;
+package cf.qishui.sodnotelean.database;
 
 import com.raizlabs.android.dbflow.annotation.Database;
 

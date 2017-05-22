@@ -6,16 +6,5 @@
     android:orientation="vertical"
     tools:context="cf.qishui.sodnotelean.MainActivity">
 
-    <Button
-        android:id="@+id/main_btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="log in" />
-
-    <Button
-        android:id="@+id/main_btn_userinfo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="user info" />
 
 </LinearLayout>

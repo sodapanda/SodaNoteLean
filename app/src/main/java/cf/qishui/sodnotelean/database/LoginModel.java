@@ -1,7 +1,9 @@
-package cf.qishui.sodnotelean.model;
+package cf.qishui.sodnotelean.database;
 
 import com.raizlabs.android.dbflow.annotation.PrimaryKey;
 import com.raizlabs.android.dbflow.annotation.Table;
+
+import cf.qishui.sodnotelean.model.SodaBaseModel;
 
 /**
  * Created by wangxiao on 2017/5/21.

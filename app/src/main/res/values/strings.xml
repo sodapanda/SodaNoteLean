@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SodNoteLean</string>
+    <string name="app_name">Notes</string>
     <string name="account_type">cf.qishui.sodnotelean</string>
     <string name="title_activity_login">Sign in</string>
 

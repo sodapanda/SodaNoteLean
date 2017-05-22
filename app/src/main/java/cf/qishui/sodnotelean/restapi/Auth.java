@@ -1,6 +1,6 @@
 package cf.qishui.sodnotelean.restapi;
 
-import cf.qishui.sodnotelean.model.LoginModel;
+import cf.qishui.sodnotelean.database.LoginModel;
 import cf.qishui.sodnotelean.model.SodaBaseModel;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
