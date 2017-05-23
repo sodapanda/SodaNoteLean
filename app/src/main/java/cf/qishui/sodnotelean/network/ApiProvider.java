@@ -6,12 +6,14 @@ import com.raizlabs.android.dbflow.sql.language.SQLite;
 import java.util.List;
 
 import cf.qishui.sodnotelean.SodApp;
+import cf.qishui.sodnotelean.database.Notebook;
 import cf.qishui.sodnotelean.database.UserInfoTable;
 import cf.qishui.sodnotelean.model.LoginModel;
-import cf.qishui.sodnotelean.database.Notebook;
+import cf.qishui.sodnotelean.model.NoteModel;
 import cf.qishui.sodnotelean.model.StateModel;
 import cf.qishui.sodnotelean.model.UserModel;
 import cf.qishui.sodnotelean.restapi.AuthService;
+import cf.qishui.sodnotelean.restapi.NoteService;
 import cf.qishui.sodnotelean.restapi.NotebookService;
 import cf.qishui.sodnotelean.restapi.UserService;
 import rx.Observable;
@@ -59,8 +61,12 @@ public class ApiProvider {
         return notebook.getNotebooks().compose(applyTransform());
     }
 
+    public static Observable<List<NoteModel>> getNotes(String notebookId) {
+        NoteService noteService = SodApp.getApp().retrofit().create(NoteService.class);
+        return noteService.getNotes(notebookId).compose(applyTransform());
+    }
+
     private static <T> Observable.Transformer<T, T> applyTransform() {
-//        return observable -> observable.subscribeOn(Schedulers.io());
         return new Observable.Transformer<T, T>() {
             @Override
             public Observable<T> call(Observable<T> observable) {
@@ -70,7 +76,7 @@ public class ApiProvider {
                             @Override
                             public void call(Throwable throwable) {
                                 if ("NOTLOGIN".equals(throwable.getMessage())) {
-                                    Logger.d("没有登录");
+                                    Logger.d("need relogin");
                                     UserInfoTable userInfoTable = SQLite.select()
                                             .from(UserInfoTable.class)
                                             .querySingle();
@@ -81,8 +87,7 @@ public class ApiProvider {
                                     SodApp.getApp().startLoginActivity();
                                 }
                             }
-                        })
-                        ;
+                        });
             }
         };
     }

@@ -93,5 +93,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
 //    compile 'com.squareup.retrofit2:converter-moshi:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'
-
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+    debugCompile 'com.amitshekhar.android:debug-db:1.0.0'
 }

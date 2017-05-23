@@ -3,11 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="cf.qishui.sodnotelean.MainActivity">
+    tools:context="cf.qishui.sodnotelean.ui.NoteListAct">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/main_recycler_books"
+        android:id="@+id/notelist_recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
