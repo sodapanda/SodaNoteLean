@@ -9,6 +9,7 @@ import cf.qishui.sodnotelean.SodApp;
 import cf.qishui.sodnotelean.database.Notebook;
 import cf.qishui.sodnotelean.database.UserInfoTable;
 import cf.qishui.sodnotelean.model.LoginModel;
+import cf.qishui.sodnotelean.model.NoteContentModel;
 import cf.qishui.sodnotelean.model.NoteModel;
 import cf.qishui.sodnotelean.model.StateModel;
 import cf.qishui.sodnotelean.model.UserModel;
@@ -64,6 +65,11 @@ public class ApiProvider {
     public static Observable<List<NoteModel>> getNotes(String notebookId) {
         NoteService noteService = SodApp.getApp().retrofit().create(NoteService.class);
         return noteService.getNotes(notebookId).compose(applyTransform());
+    }
+
+    public static Observable<NoteContentModel> getNoteContent(String noteId) {
+        NoteService noteService = SodApp.getApp().retrofit().create(NoteService.class);
+        return noteService.getNoteContent(noteId).compose(applyTransform());
     }
 
     private static <T> Observable.Transformer<T, T> applyTransform() {

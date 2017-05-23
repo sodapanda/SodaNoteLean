@@ -1,5 +1,6 @@
 package cf.qishui.sodnotelean.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -96,6 +97,15 @@ public class NoteListAct extends BaseAct {
         public void onBindViewHolder(NoteViewHolder holder, int position) {
             NoteModel note = mNotes.get(position);
             holder.mTv.setText(note.Title);
+
+            holder.mTv.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(NoteListAct.this, NoteDetailAct.class);
+                    intent.putExtra("id", note.NoteId);
+                    startActivity(intent);
+                }
+            });
         }
 
         @Override

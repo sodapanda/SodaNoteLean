@@ -23,5 +23,5 @@ public class NoteModel {
     public String UpdatedTime;
     public String PublicTime;
     public List<String> Tags;
-    public List<String> Files;
+    public List<FilesModel> Files;
 }

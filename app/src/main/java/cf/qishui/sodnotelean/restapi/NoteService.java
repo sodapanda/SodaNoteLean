@@ -2,6 +2,7 @@ package cf.qishui.sodnotelean.restapi;
 
 import java.util.List;
 
+import cf.qishui.sodnotelean.model.NoteContentModel;
 import cf.qishui.sodnotelean.model.NoteModel;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
@@ -14,4 +15,7 @@ import rx.Observable;
 public interface NoteService {
     @GET("note/getNotes")
     Observable<List<NoteModel>> getNotes(@Query("notebookId") String notebookId);
+
+    @GET("note/getNoteContent")
+    Observable<NoteContentModel> getNoteContent(@Query("noteId") String noteId);
 }
