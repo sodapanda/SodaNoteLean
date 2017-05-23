@@ -7,6 +7,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 import com.trello.rxlifecycle.android.ActivityEvent;
 
@@ -70,8 +71,17 @@ public class LoginActivity extends BaseAct {
                         userInfo.UserId = loginModel.UserId;
                         userInfo.Email = loginModel.Email;
                         userInfo.Username = loginModel.Username;
+                        userInfo.password = password;
                         userInfo.save();
                         return ApiProvider.userInfo(loginModel.UserId);
+                    }
+                })
+                .doOnNext(new Action1<UserModel>() {
+                    @Override
+                    public void call(UserModel userModel) {
+                        userInfo.Avatar = userModel.Logo;
+                        userInfo.Verified = userModel.Verified;
+                        userInfo.save();
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -79,10 +89,6 @@ public class LoginActivity extends BaseAct {
                 .subscribe(new Action1<UserModel>() {
                                @Override
                                public void call(UserModel userModel) {
-                                   userInfo.Avatar = userModel.Logo;
-                                   userInfo.Verified = userModel.Verified;
-                                   userInfo.save();
-
                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                    startActivity(intent);
                                    finish();
@@ -98,4 +104,3 @@ public class LoginActivity extends BaseAct {
                 );
     }
 }
-

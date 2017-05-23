@@ -16,9 +16,10 @@ public class Notebook extends BaseModel {
     public String ParentNotebookId;
     public int Seq;
     public String Title;
+    public String UrlTitle;
     public boolean IsBlog;
-    public boolean IsDeleted;
     public String CreatedTime;
     public String UpdatedTime;
     public int Usn;
+    public boolean IsDeleted;
 }

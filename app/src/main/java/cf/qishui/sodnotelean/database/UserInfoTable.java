@@ -17,4 +17,5 @@ public class UserInfoTable extends BaseModel {
     public String Username;
     public String Avatar;
     public boolean Verified;
+    public String password;
 }

@@ -1,6 +1,9 @@
 package cf.qishui.sodnotelean;
 
+import android.app.Activity;
 import android.app.Application;
+import android.content.Intent;
+import android.os.Bundle;
 
 import com.facebook.stetho.Stetho;
 import com.facebook.stetho.okhttp3.StethoInterceptor;
@@ -9,11 +12,13 @@ import com.orhanobut.logger.Logger;
 import com.raizlabs.android.dbflow.config.FlowManager;
 import com.raizlabs.android.dbflow.sql.language.SQLite;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import cf.qishui.sodnotelean.database.UserInfoTable;
-import cf.qishui.sodnotelean.model.LoginModel;
 import cf.qishui.sodnotelean.network.SodaNoteConverterFactory;
+import cf.qishui.sodnotelean.ui.LoginActivity;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -30,6 +35,8 @@ public class SodApp extends Application {
     private static SodApp INSTANTS;
 
     private Retrofit mRetrofit;
+
+    private List<Activity> mActs = new ArrayList<>();
 
     @Override
     public void onCreate() {
@@ -56,6 +63,8 @@ public class SodApp extends Application {
         Stetho.initializeWithDefaults(this);
 
         initHttp();
+
+        initLifeCallback();
     }
 
     private void initHttp() {
@@ -68,7 +77,10 @@ public class SodApp extends Application {
 
                     HttpUrl newUrl = chain.request().url();
                     if (userInfoTable != null) {
-                        newUrl = chain.request().url().newBuilder().addQueryParameter("token", userInfoTable.Token).build();
+                        newUrl = chain.request().url()
+                                .newBuilder()
+                                .addQueryParameter("token", userInfoTable.Token)
+                                .build();
                     }
 
                     Request request = chain.request().newBuilder().url(newUrl).build();
@@ -88,6 +100,58 @@ public class SodApp extends Application {
 
     public Retrofit retrofit() {
         return mRetrofit;
+    }
+
+    private void initLifeCallback() {
+        registerActivityLifecycleCallbacks(new ActivityLifecycleCallbacks() {
+            @Override
+            public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+                mActs.add(activity);
+            }
+
+            @Override
+            public void onActivityStarted(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityResumed(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityPaused(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivityStopped(Activity activity) {
+
+            }
+
+            @Override
+            public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+            }
+
+            @Override
+            public void onActivityDestroyed(Activity activity) {
+                mActs.remove(activity);
+            }
+        });
+    }
+
+    public void finishAllActs() {
+        for (Activity act : mActs) {
+            act.finish();
+        }
+
+        mActs.clear();
+    }
+
+    public void startLoginActivity() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
     }
 
 }
