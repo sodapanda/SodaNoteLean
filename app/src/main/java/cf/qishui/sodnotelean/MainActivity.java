@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
 
@@ -44,19 +45,27 @@ public class MainActivity extends BaseAct {
         ApiProvider.getNotebooks()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<List<Notebook>>() {
-                    @Override
-                    public void call(List<Notebook> notebooks) {
-                        if (notebooks != null) {
-                            Logger.d("获取数据" + notebooks.size());
-                            for (Notebook notebook : notebooks) {
-                                if (!notebook.delete()) {
-                                    mNotebooks.add(notebook);
-                                }
+                               @Override
+                               public void call(List<Notebook> notebooks) {
+                                   if (notebooks != null) {
+                                       Logger.d("获取数据" + notebooks.size());
+                                       for (Notebook notebook : notebooks) {
+                                           if (!notebook.delete()) {
+                                               mNotebooks.add(notebook);
+                                           }
+                                       }
+                                       mAdapter.notifyDataSetChanged();
+                                   }
+                               }
+                           },
+                        new Action1<Throwable>() {
+                            @Override
+                            public void call(Throwable throwable) {
+                                Toast.makeText(MainActivity.this, throwable.getMessage(), Toast.LENGTH_LONG).show();
                             }
-                            mAdapter.notifyDataSetChanged();
                         }
-                    }
-                });
+                )
+        ;
     }
 
     private void initViews() {
