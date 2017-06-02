@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bluelinelabs.conductor.Controller;
 import com.bluelinelabs.conductor.rxlifecycle.ControllerEvent;
 import com.bluelinelabs.conductor.rxlifecycle.RxController;
 
